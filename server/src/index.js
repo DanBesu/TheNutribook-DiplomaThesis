@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const connectDB = require('./database/database');
+const router = require('./routes/routes');
 require('dotenv').config();
 
 const userDatabase = require('./database/user.database') 
@@ -16,6 +17,13 @@ app.use(express.json());
 const PORT = process.env.SERVER_PORT;
 
 app.use(cors());
+
+// // Define a root route
+// app.get('/', (req, res) => {
+//     res.send('Welcome to the API');
+// });
+
+app.use('/', router);
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
