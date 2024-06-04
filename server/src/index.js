@@ -4,7 +4,7 @@ const connectDB = require('./database/database');
 const router = require('./routes/routes');
 require('dotenv').config();
 
-const userDatabase = require('./database/user.database') 
+const userDatabase = require('./database/user.database');
 
 const app = express();
 
@@ -29,6 +29,8 @@ app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 async function initApplication(){
     console.log('Hello World!');
+    console.log('Generate a new authentication key here: https://randomkeygen.com/')
+
     // const a = await userDatabase.create({name: 'john', email: 'john4@mail.com', password: '1234'});
 
     // console.log(a);
