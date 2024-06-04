@@ -1,11 +1,16 @@
 import React from 'react';
+import { useNavigate } from 'react-router';
 import { Form, Formik } from 'formik';
 import { Button, Card, CardContent, Typography } from '@mui/material';
+
 import LoginService from '../../services/login.service';
-import { Input } from '../../components/Input';
+import Input from '../../components/Input';
+
 import './Login.css';
 
 const Login = () => {
+    const navigate = useNavigate();
+
     const validate = (values) => {
         const errors = {};
 
@@ -32,6 +37,7 @@ const Login = () => {
                     userName: data.user.userName,
                     email: data.user.email,
                 }));
+                navigate('/home');
             } else {
                 console.error('Login failed:', response.message);
             }

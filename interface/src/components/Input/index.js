@@ -14,4 +14,4 @@ const Input = ({name, ...rest}) => {
   );
 }
 
-export { Input };
+export default Input;

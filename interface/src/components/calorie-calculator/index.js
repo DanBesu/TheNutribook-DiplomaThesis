@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Form, Formik } from 'formik';
 import {
     Typography,
@@ -10,11 +10,16 @@ import {
     InputLabel,
     MenuItem,
     Select,
-    FormHelperText
+    FormHelperText,
+    Divider,
+    Box
 } from '@mui/material';
 import RadioGroup from '@mui/material/RadioGroup';
+import { Height, FitnessCenter, Accessibility } from '@mui/icons-material';
 
+import calculateCalories from '../../utils/calorie-calculator';
 import Input from '../Input';
+import validateCalculator from './validate-calculator';
 
 const ACTIVITY_LEVELS = {
     1: 'Basal Metabolic Rate (BMR)',
@@ -26,89 +31,13 @@ const ACTIVITY_LEVELS = {
     7: 'Extremely Active: very intense exercise daily, or physical job'
 }
 
-const ACTIVITY_MULTIPLIERS = {
-    1: 1.0,
-    2: 1.2,
-    3: 1.375,
-    4: 1.55,
-    5: 1.725,
-    6: 1.9,
-    7: 2.1
-}
-
-// Male BMR Coefficients
-const BMR_MALE_CONSTANT = 88.362;
-const BMR_MALE_WEIGHT_COEFFICIENT = 13.397;
-const BMR_MALE_HEIGHT_COEFFICIENT = 4.799;
-const BMR_MALE_AGE_COEFFICIENT = 5.677;
-
-// Female BMR Coefficients
-const BMR_FEMALE_CONSTANT = 447.593;
-const BMR_FEMALE_WEIGHT_COEFFICIENT = 9.247;
-const BMR_FEMALE_HEIGHT_COEFFICIENT = 3.098;
-const BMR_FEMALE_AGE_COEFFICIENT = 4.330;
-
 const CalorieCalculator = () => {
+    const [totalCalories, setTotalCalories] = useState(null);
+
     const submit = (values) => {
-        const { age, gender, height, weight, activity } = values;
-
-        // Convert values to numbers
-        const ageNum = Number(age);
-        const heightNum = Number(height);
-        const weightNum = Number(weight);
-        const activityLevel = Number(activity);
-
-        // Calculate BMR based on gender
-        let bmr;
-        if (gender === 'male') {
-            bmr = BMR_MALE_CONSTANT +
-                  (BMR_MALE_WEIGHT_COEFFICIENT * weightNum) +
-                  (BMR_MALE_HEIGHT_COEFFICIENT * heightNum) -
-                  (BMR_MALE_AGE_COEFFICIENT * ageNum);
-        } else if (gender === 'female') {
-            bmr = BMR_FEMALE_CONSTANT +
-                  (BMR_FEMALE_WEIGHT_COEFFICIENT * weightNum) +
-                  (BMR_FEMALE_HEIGHT_COEFFICIENT * heightNum) -
-                  (BMR_FEMALE_AGE_COEFFICIENT * ageNum);
-        }
-
-        // Apply activity multiplier
-        const totalCalories = Math.floor(bmr * ACTIVITY_MULTIPLIERS[activityLevel]);
-
-        console.log(`Total daily calories ed: ${totalCalories}`);
-        return totalCalories;
-    }
-
-    const validate = (values) => {
-        const errors = {};
-
-        if (!values.age) {
-            errors.age = 'Age is required';
-        } else if (!Number.isInteger(Number(values.age)) || Number(values.age) < 15 || Number(values.age) > 70) {
-            errors.age = 'Age must be a positive integer between 15 and 70';
-        }
-
-        if (!values.gender) {
-            errors.gender = 'Gender is required';
-        }
-
-        if (!values.height) {
-            errors.height = 'Height is required';
-        } else if (isNaN(Number(values.height)) || Number(values.height) <= 0) {
-            errors.height = 'Height must be a positive number';
-        }
-
-        if (!values.weight) {
-            errors.weight = 'Weight is required';
-        } else if (isNaN(Number(values.weight)) || Number(values.weight) <= 0) {
-            errors.weight = 'Weight must be a positive number';
-        }
-
-        if (!values.activity) {
-            errors.activity = 'Activity level is required';
-        }
-
-        return errors;
+        const totalCalories = calculateCalories(values);
+        setTotalCalories(totalCalories);
+        console.log(`Total daily calories needed: ${totalCalories}`);
     }
 
     const getActivityOptions = () => {
@@ -126,8 +55,8 @@ const CalorieCalculator = () => {
 
     return (
         <div>
-            <Typography id="modal-modal-title" variant="h6" component="h2">
-                Calculator
+            <Typography id="modal-modal-title" variant="h6" component="h2" align="center">
+                Calorie Calculator
             </Typography>
             <Formik
                 initialValues={{
@@ -137,51 +66,54 @@ const CalorieCalculator = () => {
                     weight: '',
                     activity: '',
                 }}
-                validate={validate}
-                onSubmit={(values) => {
-                    const totalCalories = submit(values);
-                    alert(`Total daily calories needed: ${totalCalories}`);
-                }}
+                validate={validateCalculator}
+                onSubmit={submit}
             >
                 {({ errors, setFieldValue, values, touched, isValid }) =>
                     <Form>
-                        <div className="input-container">
-                            <Input
-                                sx={{ width: '250px', margin: '10px' }}
-                                error={!!errors.age && touched.age}
-                                name="age"
-                                label="Age"
-                                helperText={touched.age && errors.age ? errors.age : 'Type your age'}
-                            />
-                        </div>
-                        <FormControl error={!!errors.gender && touched.gender}>
-                            <FormLabel id="demo-row-radio-buttons-group-label">Gender</FormLabel>
+                        <Box display="flex" alignItems="center">
+                            <Accessibility sx={{ mr: 1 }} />
+                            <div className="input-container">
+                                <Input
+                                    sx={{ width: '250px', margin: '10px' }}
+                                    error={!!errors.age && touched.age}
+                                    name="age"
+                                    label="Age"
+                                    helperText={touched.age && errors.age ? errors.age : 'Type your age'}
+                                />
+                            </div>
+                        </Box>
+                        <FormControl component="fieldset" error={!!errors.gender && touched.gender}>
+                            <FormLabel component="legend">Gender</FormLabel>
                             <RadioGroup
                                 row
-                                aria-labelledby="demo-row-radio-buttons-group-label"
-                                name="row-radio-buttons-group"
+                                aria-label="gender"
+                                name="gender"
                                 value={values.gender}
                                 onChange={(event) => setFieldValue('gender', event.target.value)}
                             >
                                 <FormControlLabel value="female" control={<Radio />} label="Female" />
                                 <FormControlLabel value="male" control={<Radio />} label="Male" />
                             </RadioGroup>
-                            {touched.gender && errors.gender && <FormHelperText error>{errors.gender}</FormHelperText>}
+                            {touched.gender && errors.gender && <FormHelperText>{errors.gender}</FormHelperText>}
                         </FormControl>
-                        <div className="input-container">
-                            <Input
-                                sx={{ width: '250px', margin: '10px' }}
-                                error={!!errors.height && touched.height}
-                                name="height"
-                                label="Height"
-                                helperText={touched.height && errors.height ? errors.height : 'Type your height'}
-                            />
-                        </div>
+                        <Box display="flex" alignItems="center">
+                            <Height sx={{ mr: 1 }} />
+                            <div className="input-container">
+                                <Input
+                                    sx={{ width: '250px', margin: '10px' }}
+                                    error={!!errors.height && touched.height}
+                                    name="height"
+                                    label="Height"
+                                    helperText={touched.height && errors.height ? errors.height : 'Type your height'}
+                                />
+                            </div>
+                        </Box>
                         <FormControl sx={{ m: 1, minWidth: 120 }} error={!!errors.activity && touched.activity}>
-                            <InputLabel id="demo-simple-select-helper-label">Activity</InputLabel>
+                            <InputLabel id="activity-label">Activity</InputLabel>
                             <Select
-                                labelId="demo-simple-select-helper-label"
-                                id="demo-simple-select-helper"
+                                labelId="activity-label"
+                                id="activity-select"
                                 label="Activity"
                                 value={values.activity}
                                 onChange={(event) => setFieldValue('activity', event.target.value)}
@@ -190,23 +122,36 @@ const CalorieCalculator = () => {
                             </Select>
                             <FormHelperText>{touched.activity && errors.activity ? errors.activity : 'Select your activity level'}</FormHelperText>
                         </FormControl>
-                        <div className="input-container">
-                            <Input
-                                sx={{ width: '250px', margin: '10px' }}
-                                error={!!errors.weight && touched.weight}
-                                name="weight"
-                                label="Weight"
-                                helperText={touched.weight && errors.weight ? errors.weight : 'Type your weight'}
-                            />
-                        </div>
-                        <Button
-                            variant="contained"
-                            type='submit'
-                            className="submit-button"
-                            disabled={!isValid} // Disabled if there are validation errors
-                        >
-                            Submit
-                        </Button>
+                        <Box display="flex" alignItems="center">
+                            <FitnessCenter sx={{ mr: 1 }} />
+                            <div className="input-container">
+                                <Input
+                                    sx={{ width: '250px', margin: '10px' }}
+                                    error={!!errors.weight && touched.weight}
+                                    name="weight"
+                                    label="Weight"
+                                    helperText={touched.weight && errors.weight ? errors.weight : 'Type your weight'}
+                                />
+                            </div>
+                        </Box>
+                        <Divider sx={{ my: 2 }} />
+                        <Box display="flex" justifyContent="center">
+                            <Button
+                                variant="contained"
+                                type='submit'
+                                className="submit-button"
+                                disabled={!isValid}
+                            >
+                                Calculate
+                            </Button>
+                        </Box>
+                        {totalCalories && (
+                            <Box mt={2} textAlign="center">
+                                <Typography variant="h6">
+                                    Total Daily Calories Needed: {totalCalories.toFixed(2)}
+                                </Typography>
+                            </Box>
+                        )}
                     </Form>
                 }
             </Formik>

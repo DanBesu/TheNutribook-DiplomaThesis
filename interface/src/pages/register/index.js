@@ -1,8 +1,10 @@
 import React from 'react';
 import { Form, Formik } from 'formik';
 import { Button, Card, CardContent, Typography } from '@mui/material';
+
 import UserService from '../../services/user.service';
-import { Input } from '../../components/Input';
+import Input from '../../components/Input';
+
 import './Register.css';
 
 const Register = () => {
