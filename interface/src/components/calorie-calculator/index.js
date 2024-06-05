@@ -35,9 +35,16 @@ const CalorieCalculator = () => {
     const [totalCalories, setTotalCalories] = useState(null);
 
     const submit = (values) => {
-        const totalCalories = calculateCalories(values);
-        setTotalCalories(totalCalories);
-        console.log(`Total daily calories needed: ${totalCalories}`);
+        const calories = calculateCalories(values);
+        setTotalCalories(calories);
+        console.log(`Total daily calories needed: ${calories}`);
+    }
+
+    const saveCalories = () => {
+        if (totalCalories !== null) {
+            localStorage.setItem('calorieCount', totalCalories);
+            alert(`Calorie count of ${totalCalories.toFixed(2)} saved to localStorage`);
+        }
     }
 
     const getActivityOptions = () => {
@@ -135,7 +142,7 @@ const CalorieCalculator = () => {
                             </div>
                         </Box>
                         <Divider sx={{ my: 2 }} />
-                        <Box display="flex" justifyContent="center">
+                        <Box display="flex" justifyContent="center" gap={2}>
                             <Button
                                 variant="contained"
                                 type='submit'
@@ -143,6 +150,14 @@ const CalorieCalculator = () => {
                                 disabled={!isValid}
                             >
                                 Calculate
+                            </Button>
+                            <Button
+                                variant="contained"
+                                color="secondary"
+                                onClick={saveCalories}
+                                disabled={totalCalories === null || !isValid}
+                            >
+                                Save
                             </Button>
                         </Box>
                         {totalCalories && (
