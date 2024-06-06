@@ -9,4 +9,3 @@ userRouter.post('', userController.create);
 userRouter.get('', userController.getAll);
 
 module.exports = userRouter;
-
