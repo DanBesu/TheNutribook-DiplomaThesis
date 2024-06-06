@@ -3,6 +3,8 @@ import { List, ListItem, ListItemText, Drawer, Box, Typography } from '@mui/mate
 import { Link } from 'react-router-dom';
 
 const Menu = () => {
+    const user = JSON.parse(localStorage.getItem('user'));
+    
     return (
         <Drawer
             variant="permanent"
@@ -14,6 +16,7 @@ const Menu = () => {
             }}
         >
             <Box sx={{ overflow: 'auto' }}>
+                <h2 style={{marginLeft: '10px'}}>🥝 Hi, {user.userName}</h2>
                 <List>
                     {['home', 'reports', 'users'].map((text, index) => (
                         <ListItem 
@@ -28,7 +31,7 @@ const Menu = () => {
                 </List>
             </Box>
         </Drawer>
-    );
+);
 }
 
 export default Menu;
