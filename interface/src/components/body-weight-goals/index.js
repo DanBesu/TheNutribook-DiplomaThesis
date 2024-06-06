@@ -4,6 +4,7 @@ import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 
 import ModalComponent from '../modal';
+import WeightRecordService from '../../services/weight-record.service';
 
 const validationSchema = Yup.object().shape({
     bodyWeight: Yup.number().positive().required('Required'),
@@ -24,6 +25,8 @@ const BodyWeightGoals = () => {
     const handleSave = (values) => {
         localStorage.setItem('bodyWeight', values.bodyWeight);
         setBodyWeight(values.bodyWeight);
+        const userToken = localStorage.getItem('token');
+        WeightRecordService.create(userToken, values.bodyWeight);
         handleClose();
     }
 

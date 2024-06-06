@@ -30,11 +30,6 @@ const getById = async (id) => {
 };
 
 const findByEmail = async (email) => {
-    console.log('email: ', email);
-
-    const allUsers = await UserModel.find().lean().exec();
-    console.log('allUsers: ', allUsers);
-
     return await UserModel.findOne({ email }).lean().exec();
 };
 

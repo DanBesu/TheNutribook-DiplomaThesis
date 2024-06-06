@@ -1,9 +1,15 @@
+const jwt = require('jsonwebtoken');
 const weightRecordService = require('../services/weight-record.service');
 
 const create = async (req, res) => {
     try {
-        const { userId, weight } = req.body;
+        const { userToken, weight } = req.body;
+        
+        const decodedToken = jwt.verify(userToken, process.env.JWT_SECRET);
+        const userId = decodedToken.userId;
+
         const weightRecord = await weightRecordService.create(userId, weight);
+
         res.json({ status: 'success', data: weightRecord });
     } catch (error) {
         console.error(error);

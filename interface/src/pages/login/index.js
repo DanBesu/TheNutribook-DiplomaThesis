@@ -28,7 +28,6 @@ const Login = () => {
     }
 
     const submit = (values) => {
-        console.log(values);
         LoginService.login(values).then(response => {
             if (response.status === 'success') {
                 const { data } = response;

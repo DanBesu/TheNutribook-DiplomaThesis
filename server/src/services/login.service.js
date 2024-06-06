@@ -13,9 +13,8 @@ const generateToken = (user) => {
         userId: user._id.toString(),
         email: user.email
     };
-    const options = { expiresIn: '8h' };
+    const options = { expiresIn: '365d' };
     const secret = process.env.JWT_SECRET;
-    console.log('secret: ', secret);
     const token = jwt.sign(payload, secret, options);
     return token;
 };
