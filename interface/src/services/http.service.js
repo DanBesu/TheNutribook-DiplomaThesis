@@ -14,6 +14,7 @@ const HTTPService = {
             if (!response.ok) {
                 toast.error(responseBody.message || 'Server error, please try again.');
                 console.error(responseBody.message || 'HTTP error');
+
                 return { status: 'error', message: responseBody.message || 'HTTP error' };
             }
 
@@ -22,6 +23,7 @@ const HTTPService = {
         } catch (error) {
             toast.error('Something went wrong. Please try again.');
             console.error(`Http service error: ${error.message}`);
+
             return { status: 'error', message: error.message };
         }
     },
@@ -45,6 +47,32 @@ const HTTPService = {
         } catch (error) {
             toast.error('Something went wrong. Please try again.');
             console.error(`Http service error: ${error.message}`);
+
+            return { status: 'error', message: error.message };
+        }
+    },
+    delete: async (url) => {
+        try {
+            const response = await fetch(url, {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+            });
+
+            const responseBody = await response.json();
+
+            if (!response.ok) {
+                toast.error(responseBody.message || 'Server error, please try again.');
+                console.error(responseBody.message || 'HTTP error');
+                return { status: 'error', message: responseBody.message || 'HTTP error' };
+            }
+
+            toast.success('Success');
+
+            return responseBody;
+        } catch (error) {
+            toast.error('Something went wrong. Please try again.');
+            console.error(`Http service error: ${error.message}`);
+
             return { status: 'error', message: error.message };
         }
     }

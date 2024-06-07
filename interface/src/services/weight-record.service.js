@@ -1,6 +1,6 @@
 import HTTPService from "./http.service";
 
-const WEIGHT_RECORD_PATH = 'http://localhost:5001/api/weight-record'
+const WEIGHT_RECORD_PATH = 'http://localhost:5001/api/weight-record';
 
 const WeightRecordService = {
     create: async (userToken, weight) => {
@@ -14,6 +14,6 @@ const WeightRecordService = {
 
         return response;
     }
-}
+};
 
 export default WeightRecordService;
