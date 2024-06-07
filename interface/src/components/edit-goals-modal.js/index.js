@@ -4,7 +4,6 @@ import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import ModalComponent from '../modal';
 
-// Validation schema using Yup
 const validationSchema = Yup.object().shape({
     calories: Yup.number().positive().integer().min(100, 'Must be greater than 100').required('Required'),
     protein: Yup.number().positive().integer().required('Required'),

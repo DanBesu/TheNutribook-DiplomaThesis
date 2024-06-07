@@ -22,8 +22,6 @@ const generateToken = (user) => {
 
 const login = async (email, password) => {
     try {
-        console.log('email: ', email);
-
         const user = await userDatabase.findByEmail(email);
         if (!user) {
             throw new Error('User not found');

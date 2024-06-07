@@ -6,6 +6,7 @@ import Menu from "./components/app-menu";
 import Login from "./pages/login";
 import Register from "./pages/register";
 import Home from "./pages/home";
+import Reports from "./pages/reports";
 
 const RootPage = () => (
     <Box sx={{ display: 'flex' }}>
@@ -31,7 +32,7 @@ const router = createBrowserRouter([
             },
             {
                 path: "reports",
-                element: <>Reports</>,
+                element: <Reports/>,
             },
             {
                 path: "users",

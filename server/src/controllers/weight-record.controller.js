@@ -17,9 +17,13 @@ const create = async (req, res) => {
     }
 };
 
-const getAllByUserId = async (req, res) => {
+const getAllByUser = async (req, res) => {
     try {
-        const { userId } = req.params;
+        const token = req.params.token;
+
+        const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+        const userId = decodedToken.userId;
+
         const weightRecords = await weightRecordService.getAllByUserId(userId);
         res.json({ status: 'success', data: weightRecords });
     } catch (error) {
@@ -28,9 +32,13 @@ const getAllByUserId = async (req, res) => {
     }
 };
 
-const getLastByUserId = async (req, res) => {
+const getLastByUser = async (req, res) => {
     try {
-        const { userId } = req.params;
+        const token = req.params.token;
+
+        const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+        const userId = decodedToken.userId;
+        
         const weightRecord = await weightRecordService.getLastByUserId(userId);
         res.json({ status: 'success', data: weightRecord });
     } catch (error) {
@@ -41,6 +49,6 @@ const getLastByUserId = async (req, res) => {
 
 module.exports = {
     create,
-    getAllByUserId,
-    getLastByUserId,
+    getAllByUser,
+    getLastByUser,
 };
