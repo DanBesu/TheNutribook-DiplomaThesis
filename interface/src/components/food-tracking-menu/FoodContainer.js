@@ -1,15 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, Typography, Box, IconButton, Tooltip } from '@mui/material';
 import moment from 'moment';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteFoodModal from './DeleteFoodModal'; // Adjust the import path as needed
 
 const FoodContainer = ({ name, timestamp, initialCalories, initialProtein, initialFat, initialCarbs, quantity, onEdit, onDelete }) => {
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const calculatedCalories = Math.round((initialCalories * quantity) / 100);
     const calculatedProtein = Math.round((initialProtein * quantity) / 100);
     const calculatedFat = Math.round((initialFat * quantity) / 100);
     const calculatedCarbs = Math.round((initialCarbs * quantity) / 100);
     const time = moment(timestamp).format('HH:mm');
+
+    const handleOpenDeleteModal = () => {
+        setIsDeleteModalOpen(true);
+    };
+
+    const handleCloseDeleteModal = () => {
+        setIsDeleteModalOpen(false);
+    };
+
+    const handleConfirmDelete = () => {
+        onDelete();
+        handleCloseDeleteModal();
+    };
 
     return (
         <Card sx={{ mb: 2, borderRadius: '16px', border: '1px solid #ccc', p: 1 }}>
@@ -77,12 +92,17 @@ const FoodContainer = ({ name, timestamp, initialCalories, initialProtein, initi
                         <IconButton onClick={onEdit} sx={{ ml: 1 }}>
                             <EditIcon />
                         </IconButton>
-                        <IconButton onClick={onDelete} sx={{ ml: 1 }}>
+                        <IconButton onClick={handleOpenDeleteModal} sx={{ ml: 1 }}>
                             <DeleteIcon />
                         </IconButton>
                     </Box>
                 </Box>
             </CardContent>
+            <DeleteFoodModal
+                open={isDeleteModalOpen}
+                onClose={handleCloseDeleteModal}
+                onConfirm={handleConfirmDelete}
+            />
         </Card>
     );
 };

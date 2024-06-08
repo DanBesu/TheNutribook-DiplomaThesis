@@ -83,9 +83,9 @@ const FoodTrackingMenu = () => {
         console.log('Edit clicked');
     };
 
-    const handleDelete = () => {
-        // Future functionality for deleting a food entry
-        console.log('Delete clicked');
+    const handleDelete = async (id) => {
+        await FoodService.delete(id);
+        fetchFoods(currentDate);
     };
 
     return (
@@ -136,7 +136,7 @@ const FoodTrackingMenu = () => {
                     initialFat={food.fat}
                     quantity={food.quantity}
                     onEdit={handleEdit}
-                    onDelete={handleDelete}
+                    onDelete={() => handleDelete(food._id)}
                 />
             ))}
             <CreateFoodModal open={isModalOpen} onClose={handleCloseModal} />
