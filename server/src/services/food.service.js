@@ -38,8 +38,19 @@ const deleteFoodById = async (id) => {
     return await FoodDatabase.deleteFoodById(id);
 };
 
+/**
+ * Updates a food entry by its ID.
+ * @param {string} id - The ID of the food entry.
+ * @param {Object} data - The updated data for the food entry.
+ * @returns {Promise<Object>} The updated food entry.
+ */
+const updateFoodById = async (id, data) => {
+    return await FoodDatabase.updateFoodById(id, data);
+};
+
 module.exports = {
     createFood,
     getFoodByUserNameAndDate,
     deleteFoodById,
+    updateFoodById,
 };

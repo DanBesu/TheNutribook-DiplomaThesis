@@ -39,8 +39,24 @@ const deleteFoodById = async (req, res) => {
     }
 };
 
+const updateFoodById = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { name, quantity, calories, protein, carbs, fat } = req.body;
+
+        const foodData = { name, quantity, calories, protein, carbs, fat };
+        const updatedFood = await foodService.updateFoodById(id, foodData);
+
+        res.json({ status: 'success', data: updatedFood });
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({ status: 'error', message: 'Update Food Record Server Error' });
+    }
+};
+
 module.exports = {
     createFood,
     getFoodByUserNameAndDate,
     deleteFoodById,
+    updateFoodById,
 };

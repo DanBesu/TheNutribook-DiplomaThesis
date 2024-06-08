@@ -3,10 +3,13 @@ import { Card, CardContent, Typography, Box, IconButton, Tooltip } from '@mui/ma
 import moment from 'moment';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import DeleteFoodModal from './DeleteFoodModal'; // Adjust the import path as needed
+import DeleteFoodModal from './DeleteFoodModal';
+import EditFoodModal from './EditFoodModal';
 
 const FoodContainer = ({ name, timestamp, initialCalories, initialProtein, initialFat, initialCarbs, quantity, onEdit, onDelete }) => {
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+
     const calculatedCalories = Math.round((initialCalories * quantity) / 100);
     const calculatedProtein = Math.round((initialProtein * quantity) / 100);
     const calculatedFat = Math.round((initialFat * quantity) / 100);
@@ -24,6 +27,19 @@ const FoodContainer = ({ name, timestamp, initialCalories, initialProtein, initi
     const handleConfirmDelete = () => {
         onDelete();
         handleCloseDeleteModal();
+    };
+
+    const handleOpenEditModal = () => {
+        setIsEditModalOpen(true);
+    };
+
+    const handleCloseEditModal = () => {
+        setIsEditModalOpen(false);
+    };
+
+    const handleConfirmEdit = (updatedData) => {
+        onEdit(updatedData);
+        handleCloseEditModal();
     };
 
     return (
@@ -89,7 +105,7 @@ const FoodContainer = ({ name, timestamp, initialCalories, initialProtein, initi
                         </Typography>
                     </Box>
                     <Box sx={{ ml: 'auto', display: 'flex' }}>
-                        <IconButton onClick={onEdit} sx={{ ml: 1 }}>
+                        <IconButton onClick={handleOpenEditModal} sx={{ ml: 1 }}>
                             <EditIcon />
                         </IconButton>
                         <IconButton onClick={handleOpenDeleteModal} sx={{ ml: 1 }}>
@@ -102,6 +118,12 @@ const FoodContainer = ({ name, timestamp, initialCalories, initialProtein, initi
                 open={isDeleteModalOpen}
                 onClose={handleCloseDeleteModal}
                 onConfirm={handleConfirmDelete}
+            />
+            <EditFoodModal
+                open={isEditModalOpen}
+                onClose={handleCloseEditModal}
+                initialValues={{ name, quantity, calories: initialCalories, protein: initialProtein, carbs: initialCarbs, fat: initialFat }}
+                onSave={handleConfirmEdit}
             />
         </Card>
     );
