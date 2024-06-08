@@ -129,7 +129,7 @@ const FoodTrackingMenu = () => {
                 <FoodContainer 
                     key={index}
                     name={food.name}
-                    date={food.date}
+                    timestamp={food.timestamp}
                     initialCalories={food.calories}
                     initialProtein={food.protein}
                     initialCarbs={food.carbs}
