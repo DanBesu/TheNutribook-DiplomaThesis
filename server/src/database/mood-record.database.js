@@ -11,6 +11,10 @@ const createMoodRecord = async (data) => {
     return await moodRecord.save();
 };
 
+const getAll = async () => {
+    return await MoodRecordModel.find({});
+};
+
 /**
  * Get all Mood Records by userName and date.
  * @param {String} userName - The user's name.
@@ -50,5 +54,6 @@ module.exports = {
     createMoodRecord,
     getAllByUserNameAndDate,
     deleteMoodRecord,
-    updateMoodRecord
+    updateMoodRecord,
+    getAll
 };

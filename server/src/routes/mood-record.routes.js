@@ -6,5 +6,6 @@ router.post('/', moodRecordController.create);
 router.get('/:userName/:day/:month/:year', moodRecordController.getAllByUserNameAndDate);
 router.delete('/:id', moodRecordController.deleteById);
 router.put('/:id', moodRecordController.updateById);
+router.get('/', moodRecordController.getAll);
 
 module.exports = router;

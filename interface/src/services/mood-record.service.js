@@ -20,6 +20,10 @@ const MoodRecordService = {
         const response = await HTTPService.put(`${MOOD_RECORD_PATH}/${id}`, data);
         return response;
     },
+    getAll: async () => {
+        const response = await HTTPService.get(`${MOOD_RECORD_PATH}`);
+        return response;
+    }
 };
 
 export default MoodRecordService;
