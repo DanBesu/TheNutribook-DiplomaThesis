@@ -40,7 +40,6 @@ const HTTPService = {
                 return { status: 'error', message: responseBody.message || 'HTTP error' };
             }
 
-            toast.success('Success');
             return responseBody;
         } catch (error) {
             toast.error('Something went wrong. Please try again.');

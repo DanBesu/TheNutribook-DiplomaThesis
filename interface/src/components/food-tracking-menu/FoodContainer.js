@@ -44,11 +44,11 @@ const FoodContainer = ({ name, timestamp, initialCalories, initialProtein, initi
 
     return (
         <Card sx={{ mb: 2, borderRadius: '16px', border: '1px solid #ccc', p: 1 }}>
-            <CardContent>
-                <Typography variant="caption" display="block" gutterBottom>
+            <CardContent sx={{ display: 'flex', alignItems: 'center' }}>
+                <Typography variant="subtitle2" sx={{ color: '#333', mr: 2 }}>
                     {time}
                 </Typography>
-                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', flexGrow: 1 }}>
                     <Typography variant="caption" sx={{ color: '#333', mr: 1 }}>
                         {quantity} grams of
                     </Typography>
@@ -104,14 +104,14 @@ const FoodContainer = ({ name, timestamp, initialCalories, initialProtein, initi
                             Calories
                         </Typography>
                     </Box>
-                    <Box sx={{ ml: 'auto', display: 'flex' }}>
-                        <IconButton onClick={handleOpenEditModal} sx={{ ml: 1 }}>
-                            <EditIcon />
-                        </IconButton>
-                        <IconButton onClick={handleOpenDeleteModal} sx={{ ml: 1 }}>
-                            <DeleteIcon />
-                        </IconButton>
-                    </Box>
+                </Box>
+                <Box sx={{ ml: 'auto', display: 'flex' }}>
+                    <IconButton onClick={handleOpenEditModal} sx={{ ml: 1 }}>
+                        <EditIcon />
+                    </IconButton>
+                    <IconButton onClick={handleOpenDeleteModal} sx={{ ml: 1 }}>
+                        <DeleteIcon />
+                    </IconButton>
                 </Box>
             </CardContent>
             <DeleteFoodModal
