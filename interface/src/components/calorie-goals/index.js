@@ -40,18 +40,18 @@ const CalorieGoals = () => {
     return (
         <Box sx={{ border: '1px solid', borderRadius: '8px', p: 2, textAlign: 'center', width: '250px' }}>
             <Typography variant="h6">Goals</Typography>
-            <Typography variant="h4" sx={{ mt: 1 }}>{totalCalories}</Typography>
+            <Typography variant="h4" sx={{ mt: 1, color: '#ab47bc' }}>{totalCalories}</Typography>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 1 }}>
                 <Box>
-                    <Typography variant="h5">{protein}</Typography>
+                    <Typography variant="h5" sx={{ color: '#66bb6a' }}>{protein}</Typography>
                     <Typography variant="body2">Protein</Typography>
                 </Box>
                 <Box>
-                    <Typography variant="h5">{fat}</Typography>
+                    <Typography variant="h5" sx={{ color: '#ef5350' }}>{fat}</Typography>
                     <Typography variant="body2">Fat</Typography>
                 </Box>
                 <Box>
-                    <Typography variant="h5">{carbs}</Typography>
+                    <Typography variant="h5" sx={{ color: '#42a5f5' }}>{carbs}</Typography>
                     <Typography variant="body2">Carbs</Typography>
                 </Box>
             </Box>

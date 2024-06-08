@@ -20,14 +20,14 @@ const Home = () => {
                 <FoodTrackingMenu />
             </Box>
             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
+                <CalorieGoals />
                 <Button
                     variant="contained"
                     onClick={openCalculator}
-                    sx={{ mb: 3 }}
+                    sx={{ mb: 2, mt: 3, width: '285px' }}
                 >
                     Calculator
                 </Button>
-                <CalorieGoals />
                 <BodyWeightGoals />
             </Box>
             <ModalComponent

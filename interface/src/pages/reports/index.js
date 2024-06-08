@@ -14,6 +14,8 @@ const Reports = () => {
     const [graphKey, setGraphKey] = useState(Date.now());
     const [selectedGraph, setSelectedGraph] = useState('weight');
 
+    const currentUser = JSON.parse(localStorage.getItem('user')).userName
+
     useEffect(() => {
         Promise.all([
             WeightRecordService.getAll(),
@@ -24,9 +26,14 @@ const Reports = () => {
             console.log('Weight Records:', weightRecordsResponse.data);
             console.log('Food Records:', foodResponse.data);
             console.log('Mood Records', moodResponse.data);
-            setWeightRecords(weightRecordsResponse.data);
-            setFoodRecords(foodResponse.data);
-            setMoodRecords(moodResponse.data);
+
+            const filteredFoodRecords = foodResponse.data.filter(record => record.userName === currentUser);
+            console.log('filteredFoodRecords: ', filteredFoodRecords);
+            const filteredMoodRecords = moodResponse.data.filter(record => record.userName === currentUser);
+
+            setWeightRecords(weightRecordsResponse.data || []);
+            setFoodRecords(filteredFoodRecords || []);
+            setMoodRecords(filteredMoodRecords || []);
             // Update the key to force re-render
             setGraphKey(Date.now());
         })

@@ -2,6 +2,8 @@ import React from 'react';
 import { List, ListItem, ListItemText, Drawer, Box, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 
+import LogoutButton from '../logout-button';
+
 const Menu = () => {
     const user = JSON.parse(localStorage.getItem('user'));
     
@@ -29,6 +31,7 @@ const Menu = () => {
                         </ListItem>
                     ))}
                 </List>
+                <LogoutButton />
             </Box>
         </Drawer>
 );

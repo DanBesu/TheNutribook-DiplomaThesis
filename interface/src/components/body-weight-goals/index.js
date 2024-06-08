@@ -15,20 +15,36 @@ const BodyWeightGoals = () => {
     const [bodyWeight, setBodyWeight] = useState(0);
 
     useEffect(() => {
-        const storedBodyWeight = localStorage.getItem('bodyWeight');
-        setBodyWeight(storedBodyWeight ? parseInt(storedBodyWeight, 10) : 0);
+        const fetchLastWeightRecord = async () => {
+            try {
+                const response = await WeightRecordService.getLastByUser();
+                if (response.status === 'success' && response.data) {
+                    setBodyWeight(response.data.weight);
+                }
+            } catch (error) {
+                console.error('Failed to fetch the last weight record:', error);
+            }
+        };
+
+        fetchLastWeightRecord();
     }, []);
 
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
-    const handleSave = (values) => {
+    const handleSave = async (values) => {
         localStorage.setItem('bodyWeight', values.bodyWeight);
         setBodyWeight(values.bodyWeight);
-        const userToken = localStorage.getItem('token');
-        WeightRecordService.create(userToken, values.bodyWeight);
+
+        try {
+            const userToken = localStorage.getItem('token');
+            await WeightRecordService.create(userToken, values.bodyWeight);
+        } catch (error) {
+            console.error('Failed to save the weight record:', error);
+        }
+
         handleClose();
-    }
+    };
 
     return (
         <Box sx={{ border: '1px solid', borderRadius: '8px', p: 2, textAlign: 'center', width: '250px', mt: 2 }}>
@@ -71,6 +87,6 @@ const BodyWeightGoals = () => {
             </ModalComponent>
         </Box>
     );
-}
+};
 
 export default BodyWeightGoals;

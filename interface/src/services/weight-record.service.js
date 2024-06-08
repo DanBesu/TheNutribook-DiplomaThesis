@@ -13,6 +13,12 @@ const WeightRecordService = {
         const response = await HTTPService.get(`${WEIGHT_RECORD_PATH}/all/${token}`);
 
         return response;
+    },
+    getLastByUser: async () => {
+        const token = localStorage.getItem('token');
+        const response = await HTTPService.get(`${WEIGHT_RECORD_PATH}/last/${token}`);
+        
+        return response;
     }
 };
 
