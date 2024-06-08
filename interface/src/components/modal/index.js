@@ -15,7 +15,7 @@ const ModalComponent = ({ open, onClose, width = 400, children }) => {
                     backgroundColor: 'white',
                     borderRadius: '16px',
                     margin: 'auto',
-                    maxWidth: `${width}px`,
+                    width: `${width}px`,
                     textAlign: 'center',
                     boxShadow: 24,
                     position: 'absolute',

@@ -10,6 +10,7 @@ const FoodDatabase = require('../database/food.database');
  * @param {number} data.protein - The protein content in the food item.
  * @param {number} data.carbs - The carbohydrate content in the food item.
  * @param {number} data.fat - The fat content in the food item.
+ * @param {number} data.timestamp - The timestamp the data was recorded.
  * @returns {Promise<Object>} The created food entry.
  */
 const createFood = async (data) => {

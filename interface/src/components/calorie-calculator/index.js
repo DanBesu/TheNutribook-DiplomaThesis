@@ -15,7 +15,7 @@ import {
     Box
 } from '@mui/material';
 import RadioGroup from '@mui/material/RadioGroup';
-import { Height, FitnessCenter, Accessibility } from '@mui/icons-material';
+import { Height, FitnessCenter, Accessibility, DirectionsRun, Wc } from '@mui/icons-material';
 
 import calculateCalories from '../../utils/calorie-calculator';
 import Input from '../Input';
@@ -38,13 +38,6 @@ const CalorieCalculator = () => {
         const calories = calculateCalories(values);
         setTotalCalories(calories);
         console.log(`Total daily calories needed: ${calories}`);
-    }
-
-    const saveCalories = () => {
-        if (totalCalories !== null) {
-            localStorage.setItem('calorieCount', totalCalories);
-            alert(`Calorie count of ${totalCalories.toFixed(2)} saved to localStorage`);
-        }
     }
 
     const getActivityOptions = () => {
@@ -78,68 +71,68 @@ const CalorieCalculator = () => {
             >
                 {({ errors, setFieldValue, values, touched, isValid }) =>
                     <Form>
-                        <Box display="flex" alignItems="center">
+                        <Box display="flex" alignItems="center" mb={2}>
                             <Accessibility sx={{ mr: 1 }} />
-                            <div className="input-container">
-                                <Input
-                                    sx={{ width: '250px', margin: '10px' }}
-                                    error={!!errors.age && touched.age}
-                                    name="age"
-                                    label="Age"
-                                    helperText={touched.age && errors.age ? errors.age : 'Type your age'}
-                                />
-                            </div>
+                            <Input
+                                sx={{ width: '250px', margin: '10px' }}
+                                error={!!errors.age && touched.age}
+                                name="age"
+                                label="Age"
+                                helperText={touched.age && errors.age ? errors.age : 'Type your age'}
+                            />
                         </Box>
-                        <FormControl component="fieldset" error={!!errors.gender && touched.gender}>
-                            <FormLabel component="legend">Gender</FormLabel>
-                            <RadioGroup
-                                row
-                                aria-label="gender"
-                                name="gender"
-                                value={values.gender}
-                                onChange={(event) => setFieldValue('gender', event.target.value)}
-                            >
-                                <FormControlLabel value="female" control={<Radio />} label="Female" />
-                                <FormControlLabel value="male" control={<Radio />} label="Male" />
-                            </RadioGroup>
-                            {touched.gender && errors.gender && <FormHelperText>{errors.gender}</FormHelperText>}
-                        </FormControl>
-                        <Box display="flex" alignItems="center">
+                        <Box display="flex" alignItems="center" mb={2}>
+                            <Wc sx={{ mr: 1 }} />
+                            <FormControl component="fieldset" error={!!errors.gender && touched.gender} sx={{ width: '250px' }}>
+                                <FormLabel component="legend">Gender</FormLabel>
+                                <RadioGroup
+                                    row
+                                    aria-label="gender"
+                                    name="gender"
+                                    value={values.gender}
+                                    onChange={(event) => setFieldValue('gender', event.target.value)}
+                                >
+                                    <FormControlLabel value="female" control={<Radio />} label="Female" />
+                                    <FormControlLabel value="male" control={<Radio />} label="Male" />
+                                </RadioGroup>
+                                {touched.gender && errors.gender && <FormHelperText>{errors.gender}</FormHelperText>}
+                            </FormControl>
+                        </Box>
+                        <Box display="flex" alignItems="center" mb={2}>
                             <Height sx={{ mr: 1 }} />
-                            <div className="input-container">
-                                <Input
-                                    sx={{ width: '250px', margin: '10px' }}
-                                    error={!!errors.height && touched.height}
-                                    name="height"
-                                    label="Height"
-                                    helperText={touched.height && errors.height ? errors.height : 'Type your height'}
-                                />
-                            </div>
+                            <Input
+                                sx={{ width: '250px', margin: '10px' }}
+                                error={!!errors.height && touched.height}
+                                name="height"
+                                label="Height"
+                                helperText={touched.height && errors.height ? errors.height : 'Type your height'}
+                            />
                         </Box>
-                        <FormControl sx={{ m: 1, minWidth: 120 }} error={!!errors.activity && touched.activity}>
-                            <InputLabel id="activity-label">Activity</InputLabel>
-                            <Select
-                                labelId="activity-label"
-                                id="activity-select"
-                                label="Activity"
-                                value={values.activity}
-                                onChange={(event) => setFieldValue('activity', event.target.value)}
-                            >
-                                {getActivityOptions()}
-                            </Select>
-                            <FormHelperText>{touched.activity && errors.activity ? errors.activity : 'Select your activity level'}</FormHelperText>
-                        </FormControl>
-                        <Box display="flex" alignItems="center">
+                        <Box display="flex" alignItems="center" mb={2}>
+                            <DirectionsRun sx={{ mr: 1 , marginRight: '18px'}} />
+                            <FormControl sx={{ width: '250px' }} error={!!errors.activity && touched.activity}>
+                                <InputLabel id="activity-label">Activity</InputLabel>
+                                <Select
+                                    labelId="activity-label"
+                                    id="activity-select"
+                                    label="Activity"
+                                    value={values.activity}
+                                    onChange={(event) => setFieldValue('activity', event.target.value)}
+                                >
+                                    {getActivityOptions()}
+                                </Select>
+                                <FormHelperText>{touched.activity && errors.activity ? errors.activity : 'Select your activity level'}</FormHelperText>
+                            </FormControl>
+                        </Box>
+                        <Box display="flex" alignItems="center" mb={2}>
                             <FitnessCenter sx={{ mr: 1 }} />
-                            <div className="input-container">
-                                <Input
-                                    sx={{ width: '250px', margin: '10px' }}
-                                    error={!!errors.weight && touched.weight}
-                                    name="weight"
-                                    label="Weight"
-                                    helperText={touched.weight && errors.weight ? errors.weight : 'Type your weight'}
-                                />
-                            </div>
+                            <Input
+                                sx={{ width: '250px', margin: '10px' }}
+                                error={!!errors.weight && touched.weight}
+                                name="weight"
+                                label="Weight"
+                                helperText={touched.weight && errors.weight ? errors.weight : 'Type your weight'}
+                            />
                         </Box>
                         <Divider sx={{ my: 2 }} />
                         <Box display="flex" justifyContent="center" gap={2}>
@@ -150,14 +143,6 @@ const CalorieCalculator = () => {
                                 disabled={!isValid}
                             >
                                 Calculate
-                            </Button>
-                            <Button
-                                variant="contained"
-                                color="secondary"
-                                onClick={saveCalories}
-                                disabled={totalCalories === null || !isValid}
-                            >
-                                Save
                             </Button>
                         </Box>
                         {totalCalories && (

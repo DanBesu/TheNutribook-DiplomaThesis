@@ -18,7 +18,6 @@ const createMoodRecord = async (data) => {
  * @returns {Promise<Array>} - The mood records.
  */
 const getAllByUserNameAndDate = async (userName, date) => {
-    console.log('date: ', date);
     const jsDate = new Date(date.year, date.month - 1, date.day);
     const startOfDay = moment(jsDate).startOf('day').valueOf();
     const endOfDay = moment(jsDate).endOf('day').valueOf();

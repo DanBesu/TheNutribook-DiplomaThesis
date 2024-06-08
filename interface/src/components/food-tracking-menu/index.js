@@ -142,11 +142,14 @@ const FoodTrackingMenu = () => {
                             value={currentDate}
                             onChange={(newValue) => setCurrentDate(moment(newValue))}
                             renderInput={(params) => <TextField {...params} />}
+                            disableFuture // Disable dates after the current day
                         />
                     </LocalizationProvider>
-                    <IconButton onClick={handleNextDay}>
-                        <ArrowForwardIcon />
-                    </IconButton>
+                    {currentDate.isBefore(moment(), 'day') && (
+                        <IconButton onClick={handleNextDay}>
+                            <ArrowForwardIcon />
+                        </IconButton>
+                    )}
                     <Tooltip title="Come back to the current day" arrow>
                         <IconButton onClick={handleToday} sx={{ ml: 2 }}>
                             <RestartAltIcon />
@@ -201,8 +204,8 @@ const FoodTrackingMenu = () => {
                     )
                 ))}
             </Box>
-            <CreateFoodModal open={isFoodModalOpen} onClose={handleCloseFoodModal} />
-            <CreateMoodModal open={isMoodModalOpen} onClose={handleCloseMoodModal} />
+            <CreateFoodModal open={isFoodModalOpen} onClose={handleCloseFoodModal} currentDate={currentDate} />
+            <CreateMoodModal open={isMoodModalOpen} onClose={handleCloseMoodModal} currentDate={currentDate} />
         </Box>
     );
 }

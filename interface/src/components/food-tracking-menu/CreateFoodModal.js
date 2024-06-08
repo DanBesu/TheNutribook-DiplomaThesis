@@ -1,77 +1,83 @@
 import React from 'react';
-import { Modal, Box, Button, TextField, Typography } from '@mui/material';
+import { Modal, Box, TextField, Button, Typography } from '@mui/material';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import moment from 'moment';
+
 import FoodService from '../../services/food.service';
 
-const CreateFoodModal = ({ open, onClose }) => {
-    const validationSchema = Yup.object().shape({
+const CreateFoodModal = ({ open, onClose, currentDate }) => {
+    const initialValues = {
+        name: '',
+        quantity: '',
+        calories: '',
+        protein: '',
+        carbs: '',
+        fat: ''
+    };
+
+    const validationSchema = Yup.object({
         name: Yup.string().required('Required'),
-        quantity: Yup.number().positive('Must be greater than zero').required('Required'),
-        calories: Yup.number().positive('Must be greater than zero').required('Required'),
-        protein: Yup.number().positive('Must be greater than zero').required('Required'),
-        carbs: Yup.number().positive('Must be greater than zero').required('Required'),
-        fat: Yup.number().positive('Must be greater than zero').required('Required'),
+        quantity: Yup.number().positive('Must be a positive number').required('Required'),
+        calories: Yup.number().positive('Must be a positive number').required('Required'),
+        protein: Yup.number().positive('Must be a positive number').required('Required'),
+        carbs: Yup.number().positive('Must be a positive number').required('Required'),
+        fat: Yup.number().positive('Must be a positive number').required('Required')
     });
 
-    const handleFormSubmit = (values, { setSubmitting }) => {
-        const user = JSON.parse(localStorage.getItem('user'));
+    const handleSubmit = async (values, { setSubmitting }) => {
+        const currentTime = moment();
+        const timestamp = currentDate.clone().hour(currentTime.hour()).minute(currentTime.minute()).second(currentTime.second()).valueOf();
 
-        FoodService.create({
-            userName: user.userName,
-            name: values.name,
-            quantity: values.quantity,
-            calories: values.calories,
-            protein: values.protein,
-            carbs: values.carbs,
-            fat: values.fat
-        }).then(response => {
-            console.log(response);
-            setSubmitting(false);
-            onClose();
-        }).catch(error => {
-            console.error('Error creating food:', error);
-            setSubmitting(false);
-        });
+        const foodData = {
+            ...values,
+            timestamp,
+            userName: JSON.parse(localStorage.getItem('user')).userName
+        };
+
+        await FoodService.create(foodData);
+        onClose();
+        setSubmitting(false);
     };
 
     return (
         <Modal open={open} onClose={onClose}>
-            <Box sx={{ width: 400, padding: 4, margin: 'auto', marginTop: '10%', backgroundColor: 'white', borderRadius: 2 }}>
+            <Box sx={{ ...modalStyle, p: 4 }}>
+                <Typography variant="h6" component="h2">Add Food</Typography>
                 <Formik
-                    initialValues={{ name: '', quantity: '', calories: '', protein: '', carbs: '', fat: '' }}
+                    initialValues={initialValues}
                     validationSchema={validationSchema}
-                    onSubmit={handleFormSubmit}
+                    onSubmit={handleSubmit}
                 >
-                    {({ isSubmitting, isValid }) => (
+                    {({ isSubmitting }) => (
                         <Form>
-                            <Box mb={2}>
-                                <Field name="name" as={TextField} label="Name" fullWidth />
+                            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                                <Field as={TextField} name="name" label="Name" fullWidth />
                                 <ErrorMessage name="name" component="div" style={{ color: 'red' }} />
-                            </Box>
-                            <Box mb={2}>
-                                <Field name="quantity" as={TextField} label="Quantity (g)" fullWidth type="number" />
+                                
+                                <Field as={TextField} name="quantity" label="Quantity (grams)" fullWidth />
                                 <ErrorMessage name="quantity" component="div" style={{ color: 'red' }} />
-                            </Box>
-                            <Box mb={2}>
-                                <Field name="calories" as={TextField} label="🥘 Calories for 100g" fullWidth type="number" sx={{ input: { color: '#ab47bc' }, '& label.Mui-focused': { color: '#ab47bc' }, '& .MuiOutlinedInput-root': { '&.Mui-focused fieldset': { borderColor: '#ab47bc' } } }} />
+
+                                <Field as={TextField} name="calories" label="Calories" fullWidth />
                                 <ErrorMessage name="calories" component="div" style={{ color: 'red' }} />
-                            </Box>
-                            <Box mb={2}>
-                                <Field name="protein" as={TextField} label="🍖 Protein for 100g" fullWidth type="number" sx={{ input: { color: '#66bb6a' }, '& label.Mui-focused': { color: '#66bb6a' }, '& .MuiOutlinedInput-root': { '&.Mui-focused fieldset': { borderColor: '#66bb6a' } } }} />
+
+                                <Field as={TextField} name="protein" label="Protein" fullWidth />
                                 <ErrorMessage name="protein" component="div" style={{ color: 'red' }} />
-                            </Box>
-                            <Box mb={2}>
-                                <Field name="carbs" as={TextField} label="🍚 Carbs for 100g" fullWidth type="number" sx={{ input: { color: '#42a5f5' }, '& label.Mui-focused': { color: '#42a5f5' }, '& .MuiOutlinedInput-root': { '&.Mui-focused fieldset': { borderColor: '#42a5f5' } } }} />
+
+                                <Field as={TextField} name="carbs" label="Carbs" fullWidth />
                                 <ErrorMessage name="carbs" component="div" style={{ color: 'red' }} />
-                            </Box>
-                            <Box mb={2}>
-                                <Field name="fat" as={TextField} label="🥑 Fat for 100g" fullWidth type="number" sx={{ input: { color: '#ef5350' }, '& label.Mui-focused': { color: '#ef5350' }, '& .MuiOutlinedInput-root': { '&.Mui-focused fieldset': { borderColor: '#ef5350' } } }} />
+
+                                <Field as={TextField} name="fat" label="Fat" fullWidth />
                                 <ErrorMessage name="fat" component="div" style={{ color: 'red' }} />
-                            </Box>
-                            <Box display="flex" justifyContent="space-between">
-                                <Button variant="outlined" onClick={onClose}>Cancel</Button>
-                                <Button type="submit" variant="contained" color="primary" disabled={!isValid || isSubmitting}>Save</Button>
+
+                                <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
+                                    <Button variant="contained" color="primary" type="submit" disabled={isSubmitting}>
+                                        Save
+                                    </Button>
+                                    <Button variant="outlined" onClick={onClose}>
+                                        Cancel
+                                    </Button>
+                                </Box>
                             </Box>
                         </Form>
                     )}
@@ -79,6 +85,16 @@ const CreateFoodModal = ({ open, onClose }) => {
             </Box>
         </Modal>
     );
+};
+
+const modalStyle = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    bgcolor: 'background.paper',
+    boxShadow: 24,
+    borderRadius: '8px'
 };
 
 export default CreateFoodModal;

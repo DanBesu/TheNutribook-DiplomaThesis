@@ -1,58 +1,79 @@
 import React, { useState } from 'react';
-import { Box, Typography, Button } from '@mui/material';
-import ModalComponent from '../modal';
+import { Modal, Box, Typography, Button, Tooltip, Fab } from '@mui/material';
+import { AddReaction } from '@mui/icons-material';
 import MoodRecordService from '../../services/mood-record.service';
-import MoodButtons from './MoodButtons'; // Adjust the import path as needed
+import moment from 'moment';
 
-const CreateMoodModal = ({ open, onClose }) => {
+const CreateMoodModal = ({ open, onClose, currentDate }) => {
     const [selectedMood, setSelectedMood] = useState(null);
-    const user = JSON.parse(localStorage.getItem('user'));
 
-    const handleSelectMood = (mood) => {
-        setSelectedMood(mood);
+    const handleSave = async () => {
+        if (!selectedMood) return;
+
+        const currentTime = moment();
+        const timestamp = currentDate.clone().hour(currentTime.hour()).minute(currentTime.minute()).second(currentTime.second()).valueOf();
+
+        const moodData = {
+            moodLevel: selectedMood,
+            timestamp,
+            userName: JSON.parse(localStorage.getItem('user')).userName
+        };
+
+        await MoodRecordService.create(moodData);
+        onClose();
     };
 
-    const handleSaveMood = async () => {
-        if (selectedMood !== null) {
-            await MoodRecordService.create({
-                userName: user.userName,
-                moodLevel: selectedMood,
-                timestamp: Date.now()
-            });
-            onClose();
-        }
-    };
+    const moods = [
+        { level: 1, icon: '🤢', color: 'red', label: 'Really Bad' },
+        { level: 2, icon: '🥱', color: 'orange', label: 'Pretty Tired' },
+        { level: 3, icon: '😶', color: 'yellow', label: 'Decent' },
+        { level: 4, icon: '😌', color: 'yellowgreen', label: 'Fresh' },
+        { level: 5, icon: '😁', color: 'green', label: 'Fantastic!' }
+    ];
 
     return (
-        <ModalComponent open={open} onClose={onClose} width={400}>
-            <Typography id="create-mood-modal" variant="h6" component="h2" textAlign="center">
-                How do you feel?
-            </Typography>
-            <Box sx={{ display: 'flex', justifyContent: 'space-around', mt: 2 }}>
-                <MoodButtons moodLevel={1} emoji="🤢" color="red" tooltip="Really Bad" onSelect={handleSelectMood} />
-                <MoodButtons moodLevel={2} emoji="🥱" color="orange" tooltip="Pretty Tired" onSelect={handleSelectMood} />
-                <MoodButtons moodLevel={3} emoji="😶" color="yellow" tooltip="Decent" onSelect={handleSelectMood} />
-                <MoodButtons moodLevel={4} emoji="😌" color="yellowgreen" tooltip="Fresh" onSelect={handleSelectMood} />
-                <MoodButtons moodLevel={5} emoji="😁" color="green" tooltip="Fantastic!" onSelect={handleSelectMood} />
+        <Modal open={open} onClose={onClose}>
+            <Box sx={{ ...modalStyle, p: 4 }}>
+                <Typography variant="h6" component="h2">How do you feel?</Typography>
+                <Box sx={{ display: 'flex', justifyContent: 'space-around', mt: 2 }}>
+                    {moods.map(mood => (
+                        <Tooltip key={mood.level} title={mood.label} arrow>
+                            <Fab
+                                color={selectedMood === mood.level ? 'primary' : 'default'}
+                                sx={{ backgroundColor: mood.color }}
+                                onClick={() => setSelectedMood(mood.level)}
+                            >
+                                {mood.icon}
+                            </Fab>
+                        </Tooltip>
+                    ))}
+                </Box>
+                {selectedMood && (
+                    <Typography variant="h4" component="div" sx={{ mt: 2, textAlign: 'center' }}>
+                        {moods.find(mood => mood.level === selectedMood).icon}
+                    </Typography>
+                )}
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 4 }}>
+                    <Button variant="contained" color="primary" onClick={handleSave} disabled={!selectedMood}>
+                        Save
+                    </Button>
+                    <Button variant="outlined" onClick={onClose}>
+                        Cancel
+                    </Button>
+                </Box>
             </Box>
-            {selectedMood && (
-                <Typography textAlign="center" sx={{ mt: 2, fontSize: '2rem' }}>
-                    {selectedMood === 1 ? "🤢" :
-                    selectedMood === 2 ? "🥱" :
-                    selectedMood === 3 ? "😶" :
-                    selectedMood === 4 ? "😌" : "😁"}
-                </Typography>
-            )}
-            <Box sx={{ display: 'flex', justifyContent: 'space-around', mt: 3 }}>
-                <Button variant="outlined" onClick={onClose}>
-                    Cancel
-                </Button>
-                <Button variant="contained" color="primary" onClick={handleSaveMood} disabled={selectedMood === null}>
-                    Save
-                </Button>
-            </Box>
-        </ModalComponent>
+        </Modal>
     );
+};
+
+const modalStyle = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    bgcolor: 'background.paper',
+    boxShadow: 24,
+    borderRadius: '8px'
 };
 
 export default CreateMoodModal;

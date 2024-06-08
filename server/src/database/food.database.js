@@ -2,7 +2,7 @@ const FoodModel = require('../models/food.model');
 const moment = require('moment');
 
 const createFood = async (data) => {
-    const { userName, name, quantity, calories, protein, carbs, fat } = data;
+    const { userName, name, quantity, calories, protein, carbs, fat, timestamp } = data;
 
     const food = new FoodModel({
         userName,
@@ -12,7 +12,7 @@ const createFood = async (data) => {
         protein,
         carbs,
         fat,
-        timestamp: Date.now(),
+        timestamp,
     });
 
     await food.save();

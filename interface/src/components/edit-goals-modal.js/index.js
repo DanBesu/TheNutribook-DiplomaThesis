@@ -51,7 +51,7 @@ const EditGoalsModal = ({ initialValues, onSave, onClose, open }) => {
     }
 
     return (
-        <ModalComponent open={open} onClose={onClose}>
+        <ModalComponent open={open} onClose={onClose} width={500}>
             <Typography variant="h6" component="h2">Edit Goals</Typography>
             <Typography variant="body1" sx={{ mt: 1 }}>
                 You should enter your total <b>calories</b> and <b>protein</b> goals first.
