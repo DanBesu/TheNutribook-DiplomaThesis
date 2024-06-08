@@ -125,20 +125,22 @@ const FoodTrackingMenu = () => {
                     <AddIcon />
                 </Fab>
             </Box>
-            {foods.map((food, index) => (
-                <FoodContainer 
-                    key={index}
-                    name={food.name}
-                    timestamp={food.timestamp}
-                    initialCalories={food.calories}
-                    initialProtein={food.protein}
-                    initialCarbs={food.carbs}
-                    initialFat={food.fat}
-                    quantity={food.quantity}
-                    onEdit={handleEdit}
-                    onDelete={() => handleDelete(food._id)}
-                />
-            ))}
+            <Box sx={{ maxHeight: '600px', overflowY: 'auto' }}>
+                {foods.map((food, index) => (
+                    <FoodContainer 
+                        key={index}
+                        name={food.name}
+                        timestamp={food.timestamp}
+                        initialCalories={food.calories}
+                        initialProtein={food.protein}
+                        initialCarbs={food.carbs}
+                        initialFat={food.fat}
+                        quantity={food.quantity}
+                        onEdit={handleEdit}
+                        onDelete={() => handleDelete(food._id)}
+                    />
+                ))}
+            </Box>
             <CreateFoodModal open={isModalOpen} onClose={handleCloseModal} />
         </Box>
     );
