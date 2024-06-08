@@ -14,7 +14,6 @@ const HTTPService = {
             if (!response.ok) {
                 toast.error(responseBody.message || 'Server error, please try again.');
                 console.error(responseBody.message || 'HTTP error');
-
                 return { status: 'error', message: responseBody.message || 'HTTP error' };
             }
 
@@ -23,7 +22,6 @@ const HTTPService = {
         } catch (error) {
             toast.error('Something went wrong. Please try again.');
             console.error(`Http service error: ${error.message}`);
-
             return { status: 'error', message: error.message };
         }
     },
@@ -47,7 +45,6 @@ const HTTPService = {
         } catch (error) {
             toast.error('Something went wrong. Please try again.');
             console.error(`Http service error: ${error.message}`);
-
             return { status: 'error', message: error.message };
         }
     },
@@ -67,15 +64,37 @@ const HTTPService = {
             }
 
             toast.success('Success');
-
             return responseBody;
         } catch (error) {
             toast.error('Something went wrong. Please try again.');
             console.error(`Http service error: ${error.message}`);
+            return { status: 'error', message: error.message };
+        }
+    },
+    put: async (url, data) => {
+        try {
+            const response = await fetch(url, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
+            });
 
+            const responseBody = await response.json();
+
+            if (!response.ok) {
+                toast.error(responseBody.message || 'Server error, please try again.');
+                console.error(responseBody.message || 'HTTP error');
+                return { status: 'error', message: responseBody.message || 'HTTP error' };
+            }
+
+            toast.success('Success');
+            return responseBody;
+        } catch (error) {
+            toast.error('Something went wrong. Please try again.');
+            console.error(`Http service error: ${error.message}`);
             return { status: 'error', message: error.message };
         }
     }
-}
+};
 
 export default HTTPService;

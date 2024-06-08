@@ -78,9 +78,9 @@ const FoodTrackingMenu = () => {
         fetchFoods(currentDate); // Fetch foods again after closing modal
     };
 
-    const handleEdit = () => {
-        // Future functionality for editing a food entry
-        console.log('Edit clicked');
+    const handleEdit = async (id, updatedData) => {
+        await FoodService.update(id, updatedData);
+        fetchFoods(currentDate);
     };
 
     const handleDelete = async (id) => {
@@ -89,7 +89,7 @@ const FoodTrackingMenu = () => {
     };
 
     return (
-        <Box sx={{ mr: 4 }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh', mr: 4 }}>
             <Box sx={{ display: 'flex', alignItems: 'center', mb: 2, justifyContent: 'space-between' }}>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                     <IconButton onClick={handlePrevDay}>
@@ -125,7 +125,7 @@ const FoodTrackingMenu = () => {
                     <AddIcon />
                 </Fab>
             </Box>
-            <Box sx={{ maxHeight: '600px', overflowY: 'auto' }}>
+            <Box sx={{ maxHeight: '600px', overflowY: 'auto', borderTop: '1px solid #ccc', borderBottom: '1px solid #ccc' }}>
                 {foods.map((food, index) => (
                     <FoodContainer 
                         key={index}
@@ -136,7 +136,7 @@ const FoodTrackingMenu = () => {
                         initialCarbs={food.carbs}
                         initialFat={food.fat}
                         quantity={food.quantity}
-                        onEdit={handleEdit}
+                        onEdit={(updatedData) => handleEdit(food._id, updatedData)}
                         onDelete={() => handleDelete(food._id)}
                     />
                 ))}

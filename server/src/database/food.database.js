@@ -34,8 +34,22 @@ const deleteFoodById = async (id) => {
     return await FoodModel.findByIdAndDelete(id).lean().exec();
 };
 
+const updateFoodById = async (id, data) => {
+    const { name, quantity, calories, protein, carbs, fat } = data;
+
+    return await FoodModel.findByIdAndUpdate(id, {
+        name,
+        quantity,
+        calories,
+        protein,
+        carbs,
+        fat,
+    }, { new: true }).lean().exec();
+};
+
 module.exports = {
     createFood,
     getFoodByUserNameAndDate,
     deleteFoodById,
+    updateFoodById,
 };

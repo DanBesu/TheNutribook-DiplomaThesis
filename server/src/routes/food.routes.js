@@ -6,5 +6,6 @@ const foodRouter = express.Router();
 foodRouter.post('', foodController.createFood);
 foodRouter.get('/:userName/:day/:month/:year', foodController.getFoodByUserNameAndDate);
 foodRouter.delete('/:id', foodController.deleteFoodById);
+foodRouter.put('/:id', foodController.updateFoodById);
 
 module.exports = foodRouter;
