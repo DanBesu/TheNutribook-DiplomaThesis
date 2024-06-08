@@ -43,9 +43,20 @@ const updateById = async (req, res) => {
     }
 };
 
+const getAll = async (req, res) => {
+    try {
+        const moodRecords = await moodRecordService.getAll();
+        res.json({ status: 'success', data: moodRecords });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ status: 'error', message: `Get Mood Records Server error: ${error.message}` });
+    }
+};
+
 module.exports = {
     create,
     getAllByUserNameAndDate,
     deleteById,
-    updateById
+    updateById,
+    getAll
 };

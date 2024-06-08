@@ -4,23 +4,29 @@ import WeightRecordService from "../../services/weight-record.service";
 import FoodService from "../../services/food.service";
 import WeightRecordsGraph from "../../components/graphs/WeightRecordsGraph";
 import CaloriesGraph from "../../components/graphs/CaloriesGraph";
+import MoodRecordService from "../../services/mood-record.service";
+import MoodCalendar from "../../components/mood-calendar";
 
 const Reports = () => {
     const [weightRecords, setWeightRecords] = useState([]);
     const [foodRecords, setFoodRecords] = useState([]);
+    const [moodRecords, setMoodRecords] = useState([]);
     const [graphKey, setGraphKey] = useState(Date.now());
     const [selectedGraph, setSelectedGraph] = useState('weight');
 
     useEffect(() => {
         Promise.all([
             WeightRecordService.getAll(),
-            FoodService.getAll()
+            FoodService.getAll(),
+            MoodRecordService.getAll()
         ])
-        .then(([weightRecordsResponse, foodResponse]) => {
+        .then(([weightRecordsResponse, foodResponse, moodResponse]) => {
             console.log('Weight Records:', weightRecordsResponse.data);
             console.log('Food Records:', foodResponse.data);
+            console.log('Mood Records', moodResponse.data);
             setWeightRecords(weightRecordsResponse.data);
             setFoodRecords(foodResponse.data);
+            setMoodRecords(moodResponse.data);
             // Update the key to force re-render
             setGraphKey(Date.now());
         })
@@ -60,6 +66,7 @@ const Reports = () => {
             <Box sx={{ mt: 3, mr: '30px' }}>
                 {selectedGraph === 'weight' && <WeightRecordsGraph key={graphKey} weightRecords={weightRecords} />}
                 {selectedGraph === 'calories' && <CaloriesGraph key={graphKey} foodRecords={foodRecords} />}
+                {selectedGraph === 'mood' && <MoodCalendar moodRecords={moodRecords} />}
             </Box>
         </div>
     );

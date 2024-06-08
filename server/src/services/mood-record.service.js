@@ -16,9 +16,14 @@ const updateById = async (id, data) => {
     return await MoodRecordDatabase.updateMoodRecord(id, data);
 };
 
+const getAll = async () => {
+    return await MoodRecordDatabase.getAll();
+};
+
 module.exports = {
     create,
     getAllByUserNameAndDate,
     deleteById,
-    updateById
+    updateById,
+    getAll
 };
