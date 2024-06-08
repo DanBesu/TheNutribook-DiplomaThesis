@@ -17,8 +17,7 @@ const createFood = async (req, res) => {
 const getFoodByUserNameAndDate = async (req, res) => {
     try {
         const { userName, day, month, year } = req.params;
-        console.log('userName, day, month, year: ', userName, day, month, year);
-
+        
         const date = { day: parseInt(day), month: parseInt(month), year: parseInt(year) };
         const foodRecords = await foodService.getFoodByUserNameAndDate(userName, date);
         res.json({ status: 'success', data: foodRecords });

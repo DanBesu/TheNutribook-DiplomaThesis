@@ -8,9 +8,7 @@ const FoodService = {
         return response;
     },
     getByUserNameAndDate: async (data) => {
-        console.log('data: ', data);
         const { userName, day, month, year } = data;
-        
 
         const response = await HTTPService.get(`${FOOD_PATH}/${userName}/${day}/${month}/${year}`);
         return response;

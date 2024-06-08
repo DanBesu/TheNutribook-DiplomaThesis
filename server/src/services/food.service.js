@@ -26,8 +26,6 @@ const createFood = async (data) => {
  * @returns {Promise<Array>} An array of food entries.
  */
 const getFoodByUserNameAndDate = async (userName, date) => {
-    console.log('userName, date: ', userName, date);
-
     return await FoodDatabase.getFoodByUserNameAndDate(userName, date);
 };
 
