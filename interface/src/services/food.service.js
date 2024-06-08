@@ -20,6 +20,10 @@ const FoodService = {
         const response = await HTTPService.put(`${FOOD_PATH}/${id}`, data);
         return response;
     },
+    getAll: async () => {
+        const response = await HTTPService.get(`${FOOD_PATH}`);
+        return response;
+    },
 };
 
 export default FoodService;

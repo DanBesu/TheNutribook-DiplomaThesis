@@ -49,9 +49,15 @@ const updateFoodById = async (id, data) => {
     return await FoodDatabase.updateFoodById(id, data);
 };
 
+const getAll = async () => {
+    return await FoodDatabase.getAll();
+};
+
+
 module.exports = {
     createFood,
     getFoodByUserNameAndDate,
     deleteFoodById,
     updateFoodById,
+    getAll
 };

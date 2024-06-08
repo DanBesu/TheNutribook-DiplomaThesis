@@ -19,6 +19,10 @@ const createFood = async (data) => {
     return food.toObject();
 };
 
+const getAll = async () => {
+    return await FoodModel.find({});
+};
+
 const getFoodByUserNameAndDate = async (userName, date) => {
     const jsDate = new Date(date.year, date.month - 1, date.day);
     const startOfDay = moment(jsDate).startOf('day').valueOf();
@@ -52,4 +56,5 @@ module.exports = {
     getFoodByUserNameAndDate,
     deleteFoodById,
     updateFoodById,
+    getAll
 };
