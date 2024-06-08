@@ -15,6 +15,16 @@ const createFood = async (req, res) => {
     }
 };
 
+const getAll = async (req, res) => {
+    try {
+        const foods = await foodService.getAll();
+        res.json({ status: 'success', data: foods });
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({ status: 'error', message: `Get All Foods Server error: ${error.message}` });
+    }
+};
+
 const getFoodByUserNameAndDate = async (req, res) => {
     try {
         const { userName, day, month, year } = req.params;
@@ -60,4 +70,5 @@ module.exports = {
     getFoodByUserNameAndDate,
     deleteFoodById,
     updateFoodById,
+    getAll
 };
