@@ -6,7 +6,18 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import DeleteFoodModal from './DeleteFoodModal';
 import EditFoodModal from './EditFoodModal';
 
-const FoodContainer = ({ name, timestamp, initialCalories, initialProtein, initialFat, initialCarbs, quantity, onEdit, onDelete }) => {
+const FoodContainer = ({
+    name,
+    timestamp,
+    initialCalories,
+    initialProtein,
+    initialFat,
+    initialCarbs,
+    quantity,
+    onEdit = () => {},
+    onDelete = () => {},
+    disableActions = false
+}) => {
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
@@ -105,14 +116,16 @@ const FoodContainer = ({ name, timestamp, initialCalories, initialProtein, initi
                         </Typography>
                     </Box>
                 </Box>
-                <Box sx={{ ml: 'auto', display: 'flex' }}>
-                    <IconButton onClick={handleOpenEditModal} sx={{ ml: 1 }}>
-                        <EditIcon />
-                    </IconButton>
-                    <IconButton onClick={handleOpenDeleteModal} sx={{ ml: 1 }}>
-                        <DeleteIcon />
-                    </IconButton>
-                </Box>
+                {!disableActions && (
+                    <Box sx={{ ml: 'auto', display: 'flex' }}>
+                        <IconButton onClick={handleOpenEditModal} sx={{ ml: 1 }}>
+                            <EditIcon />
+                        </IconButton>
+                        <IconButton onClick={handleOpenDeleteModal} sx={{ ml: 1 }}>
+                            <DeleteIcon />
+                        </IconButton>
+                    </Box>
+                )}
             </CardContent>
             <DeleteFoodModal
                 open={isDeleteModalOpen}
