@@ -42,10 +42,23 @@ const Reports = () => {
         });
     }, []);
 
+    const renderTitle = () => {
+        switch(selectedGraph) {
+            case 'weight':
+                return 'Weight Reports';
+            case 'calories':
+                return 'Caloric Reports';
+            case 'mood':
+                return 'Mood Reports';
+            default:
+                return 'Reports';
+        }
+    };
+
     return (
         <div style={{ padding: '5px' }}>
             <Typography variant="h3" align="center" gutterBottom>
-                Reports
+                {renderTitle()}
             </Typography>
             <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, mb: 3 }}>
                 <Button 
