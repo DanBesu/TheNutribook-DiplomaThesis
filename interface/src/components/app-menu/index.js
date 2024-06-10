@@ -17,8 +17,21 @@ const Menu = () => {
                 [`& .MuiDrawer-paper`]: { width: 240, boxSizing: 'border-box' },
             }}
         >
-            <Box sx={{ overflow: 'auto' }}>
-                <h2 style={{marginLeft: '10px'}}>🥝 Hi, {user.userName}</h2>
+            <Box sx={{ overflow: 'auto', padding: '20px' }}>
+                <Typography 
+                    variant="h4" 
+                    component="div" 
+                    sx={{ fontWeight: 'bold',  marginBottom: '12px' }}
+                >
+                    The Nutribook
+                </Typography>
+                <Typography 
+                    variant="h6" 
+                    component="div" 
+                    sx={{ marginLeft: '10px' }}
+                >
+                    🥝 Hi, {user.userName}
+                </Typography>
                 <List>
                     {['home', 'reports', 'users'].map((text) => (
                         <ListItem 
