@@ -40,7 +40,7 @@ const CreateMoodModal = ({ open, onClose, currentDate }) => {
                         <Tooltip key={mood.level} title={mood.label} arrow>
                             <Fab
                                 color={selectedMood === mood.level ? 'primary' : 'default'}
-                                sx={{ backgroundColor: mood.color }}
+                                sx={{ backgroundColor: mood.color, fontSize: '2rem' }}
                                 onClick={() => setSelectedMood(mood.level)}
                             >
                                 {mood.icon}
@@ -49,7 +49,7 @@ const CreateMoodModal = ({ open, onClose, currentDate }) => {
                     ))}
                 </Box>
                 {selectedMood && (
-                    <Typography variant="h4" component="div" sx={{ mt: 2, textAlign: 'center' }}>
+                    <Typography variant="h4" component="div" sx={{ mt: 2, textAlign: 'center', fontSize: '3rem' }}>
                         {moods.find(mood => mood.level === selectedMood).icon}
                     </Typography>
                 )}
