@@ -1,6 +1,7 @@
 import React from 'react';
 import { Form, Formik } from 'formik';
 import { Button, Card, CardContent, Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 import UserService from '../../services/user.service';
 import Input from '../../components/Input';
@@ -8,10 +9,13 @@ import Input from '../../components/Input';
 import './Register.css';
 
 const Register = () => {
+    const navigate = useNavigate();
+
     const submit = (values) => {
         const submitData = { ...values };
         delete submitData.confirmPassword;
         UserService.create(submitData);
+        navigate('/login');
     }
 
     const validate = (values) => {
