@@ -58,13 +58,13 @@ const Login = () => {
                         validate={validate}
                         onSubmit={submit}
                     >
-                        {({ errors }) =>
+                        {({ errors, touched }) =>
                             <Form>
                                 <div className="inputs-container">
                                     <div className="input-container">
                                         <Input
                                             sx={{ width: '300px', margin: '10px' }}
-                                            error={!!errors.email}
+                                            error={!!errors.email && touched.email}
                                             name="email"
                                             label="Email"
                                             helperText={errors.email || 'type your email'}
@@ -73,7 +73,7 @@ const Login = () => {
                                     <div className="input-container">
                                         <Input
                                             sx={{ width: '300px', margin: '10px' }}
-                                            error={!!errors.password}
+                                            error={!!errors.password && touched.password}
                                             name="password"
                                             label="Password"
                                             type="password"

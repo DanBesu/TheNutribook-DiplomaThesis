@@ -3,7 +3,6 @@ const foodService = require('../services/food.service');
 const createFood = async (req, res) => {
     try {
         const { userName, name, quantity, calories, protein, carbs, fat, timestamp } = req.body;
-        console.log('req.body: ', req.body);
 
         const foodData = { userName, name, quantity, calories, protein, carbs, fat, timestamp };
         const food = await foodService.createFood(foodData);
