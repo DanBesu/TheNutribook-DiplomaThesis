@@ -16,12 +16,27 @@
     margin-bottom: 20px;
 }
 
+.inputs-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .input-container {
     margin-bottom: 15px;
 }
 
 .submit-button {
-    display: block;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.register-button-container {
+    margin-top: 15px;
+}
+
+.register-button {
     width: 100%;
     margin-top: 20px;
 }

@@ -63,39 +63,45 @@ const Register = () => {
                     >
                         {({ errors, touched }) =>
                             <Form>
-                                <div className="input-container">
-                                    <Input
-                                        error={!!errors.userName && touched.userName}
-                                        name="userName"
-                                        label="Username"
-                                        helperText={errors.userName || 'type your username'}
-                                    />
-                                </div>
-                                <div className="input-container">
-                                    <Input
-                                        error={!!errors.email && touched.email}
-                                        name="email"
-                                        label="Email"
-                                        helperText={errors.email || 'type your email'}
-                                    />
-                                </div>
-                                <div className="input-container">
-                                    <Input
-                                        error={!!errors.password && touched.password}
-                                        name="password"
-                                        label="Password"
-                                        type="password"
-                                        helperText={errors.password || 'type your password'}
-                                    />
-                                </div>
-                                <div className="input-container">
-                                    <Input
-                                        error={!!errors.confirmPassword && touched.confirmPassword}
-                                        name="confirmPassword"
-                                        label="Confirm Password"
-                                        type="password"
-                                        helperText={errors.confirmPassword || 'confirm your password'}
-                                    />
+                                <div className='inputs-container'>
+                                    <div className="input-container">
+                                        <Input
+                                            sx={{width: '300px'}}
+                                            error={!!errors.userName && touched.userName}
+                                            name="userName"
+                                            label="Username"
+                                            helperText={errors.userName || 'type your username'}
+                                        />
+                                    </div>
+                                    <div className="input-container">
+                                        <Input
+                                            sx={{width: '300px'}}
+                                            error={!!errors.email && touched.email}
+                                            name="email"
+                                            label="Email"
+                                            helperText={errors.email || 'type your email'}
+                                        />
+                                    </div>
+                                    <div className="input-container">
+                                        <Input
+                                            sx={{width: '300px'}}
+                                            error={!!errors.password && touched.password}
+                                            name="password"
+                                            label="Password"
+                                            type="password"
+                                            helperText={errors.password || 'type your password'}
+                                        />
+                                    </div>
+                                    <div className="input-container">
+                                        <Input
+                                            sx={{width: '300px'}}
+                                            error={!!errors.confirmPassword && touched.confirmPassword}
+                                            name="confirmPassword"
+                                            label="Confirm Password"
+                                            type="password"
+                                            helperText={errors.confirmPassword || 'confirm your password'}
+                                        />
+                                    </div>
                                 </div>
                                 <Button
                                     variant="contained"
@@ -105,6 +111,15 @@ const Register = () => {
                                 >
                                     Submit
                                 </Button>
+                                <div className='login-button-container'>
+                                    <Button
+                                        variant="outlined"
+                                        className="register-button"
+                                        onClick={() => navigate('/login')}
+                                    >
+                                        Already have an account? Log In here
+                                    </Button>
+                                </div>
                             </Form>
                         }
                     </Formik>

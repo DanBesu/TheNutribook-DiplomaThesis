@@ -15,7 +15,7 @@ const Login = () => {
         const errors = {};
 
         if (!values.email.trim()) {
-            errors.email = '*required*';
+            errors.email = 'required';
         } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
             errors.email = 'invalid format';
         }
@@ -60,24 +60,26 @@ const Login = () => {
                     >
                         {({ errors }) =>
                             <Form>
-                                <div className="input-container">
-                                    <Input
-                                        sx={{ width: '250px', margin: '10px' }}
-                                        error={!!errors.email}
-                                        name="email"
-                                        label="Email"
-                                        helperText={errors.email || 'type your email'}
-                                    />
-                                </div>
-                                <div className="input-container">
-                                    <Input
-                                        sx={{ width: '250px', margin: '10px' }}
-                                        error={!!errors.password}
-                                        name="password"
-                                        label="Password"
-                                        type="password"
-                                        helperText={errors.password || 'type your password'}
-                                    />
+                                <div className="inputs-container">
+                                    <div className="input-container">
+                                        <Input
+                                            sx={{ width: '300px', margin: '10px' }}
+                                            error={!!errors.email}
+                                            name="email"
+                                            label="Email"
+                                            helperText={errors.email || 'type your email'}
+                                        />
+                                    </div>
+                                    <div className="input-container">
+                                        <Input
+                                            sx={{ width: '300px', margin: '10px' }}
+                                            error={!!errors.password}
+                                            name="password"
+                                            label="Password"
+                                            type="password"
+                                            helperText={errors.password || 'type your password'}
+                                        />
+                                    </div>
                                 </div>
                                 <Button
                                     variant="contained"
@@ -87,6 +89,15 @@ const Login = () => {
                                 >
                                     Submit
                                 </Button>
+                                <div className='register-button-container'>
+                                    <Button
+                                        variant="outlined"
+                                        className="register-button"
+                                        onClick={() => navigate('/register')}
+                                    >
+                                        Click to Register
+                                    </Button>
+                                </div>
                             </Form>
                         }
                     </Formik>
