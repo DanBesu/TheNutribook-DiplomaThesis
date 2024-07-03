@@ -18,26 +18,28 @@ const RootPage = () => (
     </Box>
 );
 
+const token = localStorage.getItem('token');
+
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <RootPage />,
+        element: !token ? <Navigate to="/login" replace /> : <RootPage />,
         children: [
             {
                 path: "/",
-                element: <Navigate to="/home" replace />,
+                element: !token ? <Navigate to="/login" replace /> : <Navigate to="/home" replace />,
             },
             {
                 path: "home",
-                element: <Home />,
+                element: !token ? <Navigate to="/login" replace /> : <Home />,
             },
             {
                 path: "reports",
-                element: <Reports/>,
+                element: !token ? <Navigate to="/login" replace /> : <Reports/>,
             },
             {
                 path: "users",
-                element: <UsersPage />,
+                element: !token ? <Navigate to="/login" replace /> : <UsersPage />,
             },
         ],
     },
