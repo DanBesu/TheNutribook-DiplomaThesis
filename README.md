@@ -1,4 +1,8 @@
-# TheNutribook-DiplomaThesis
+# TheNutribook - Diploma Thesis
+### Documentation
+[TheNutribook-DiplomaThesis-Documentation.pdf](https://github.com/user-attachments/files/18747427/TheNutribook-DiplomaThesis-Documentation.pdf)
+
+### Configuration
 interface .env:
 - API_PATH='http://localhost:5001/'
 - JWT_SECRET='2jR8TztCMMggrIWrZYOupkEfa4EHrlW5'
